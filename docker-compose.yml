@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: 4466
+      DB_NAME: bend
+    volumes:
+      - .:/app # Mount the current directory into the container
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: bend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 4466
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
